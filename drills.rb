@@ -8,8 +8,6 @@ def say_hello
   "hello"
 end
 
-puts say_hello
-
 #echo
   # returns the input string
 
@@ -17,15 +15,23 @@ puts say_hello
     input
   end
 
-  puts echo("what")
-
 #eddie_izzards_height
   # calculates Eddie Izzards height (67in)
   # and takes into account the height of his heel (default: 0in)
 
+  def eddie_izzards_height (heel_height = 0)
+    67 + heel_height
+  end
+
+
 #how_many_args
   # accepts any number of arguments without complaint
   # returns the total number of arguments passed to the function
+
+  def how_many_args(*args)
+    args.length
+  end
+
 
 #find_answer
   # returns the value associated with the 'answer' keyword argument
@@ -39,27 +45,80 @@ puts say_hello
   # returns the first letter of the word
   # lowercases the first letter of the word
 
+  def first_char(string)
+    string = string.downcase.split("")
+    return string[0]
+  end
+
 #polly_wanna
   # echoes the original word
   # repeats the original word 3 times
 
+  def polly_wanna(string)
+    string * 3
+  end
+
 #count_chars
   # returns the number of characters in a string
+
+  def count_chars(string)
+    string = string.split("")
+    string.length
+  end
 
 #yell
   # convert the message to uppercase
   # adds an exclamation point to the end of the message
 
+  def yell(string)
+    string.upcase + "!"
+  end
+
 #to_telegram
   # replaces periods with ' STOP'
+
+  #loop doesn't work right
+  # def to_telegram(string)
+  #   string = string.split(//)
+  #   puts string
+
+  #   i = 0
+  #     while i < string.length
+  #       if string[i] == "h"
+  #         string[i] = "k"
+  #       end
+  #     end
+  #   # string.each do |letter|
+  #   #   if letter == "."
+  #   #     letter = " STOP"
+  #   #   end
+  #   # end
+  #   puts string
+  #   string.join 
+  # end
+
+  # puts to_telegram("hello.")
+ 
 
 #spell_out
   # returns the input string, with characters seperated by dashes
   # converts the string to lowercase
 
+  def spell_out(string)
+    string = string.downcase.split(//)
+    string.join("-")
+  end
+
 #seperate
   # seperates characters with a custom seperator, when supplied with one
   # seperates characters with dashes (by default)
+  
+  def seperate(string, seperator = "-")
+    string = string.downcase.split(//)
+    string.join(seperator)
+  end
+
+  puts seperate("hey")
 
 #croon
   # seperates word characters with dashes

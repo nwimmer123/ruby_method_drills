@@ -4,8 +4,20 @@
 #say_hello
   # returns 'hello'
 
+def say_hello
+  "hello"
+end
+
+puts say_hello
+
 #echo
   # returns the input string
+
+  def echo(input)
+    input
+  end
+
+  puts echo("what")
 
 #eddie_izzards_height
   # calculates Eddie Izzards height (67in)

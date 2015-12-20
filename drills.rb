@@ -128,6 +128,14 @@ end
   # determines whether a single word is a palindrome
   # ignores case
 
+  def palindrome_word?(string)
+    string = string.downcase
+    if string == string.reverse
+      return true
+    end
+    false
+  end
+
 #palindrome_sentence?
   # determines whether a sentence is a palindrome
   # ignores case
@@ -151,34 +159,146 @@ end
 #count_spaces
   # counts the spaces in a string
 
+  def count_spaces(string)
+    count = 0
+    string = string.split(//)
+    string.each do |letter|
+      if letter == " "
+        count += 1
+      end
+    end
+    count
+  end
+
 #string_lengths
   # converts a list of strings to a list of string lengths
 
+  def string_lengths(array)
+    string_lengths = []
+    array.each do |element|
+      string_lengths << element.length
+    end
+    string_lengths
+  end
+
 #remove_falsy_values
   # filters out falsy values from a list
+  def remove_falsy_values(array)
+    truthy_array = []
+    array.each do |element|
+      if element == true
+        truthy_array << element
+        puts truthy_array
+      end
+    truthy_array
+    end
+  end
+
+puts remove_falsy_values([0, "", nil, false, -1]) 
+
 
 #exclude_last
   # removes the last item from an array
   # removes the last item from a string
+
+  def exclude_last(input)
+    if input.is_a?(Array)
+      array = []
+      i = 0
+      while i < input.length - 1
+        array << input[i]
+        i += 1
+      end
+      return array
+    else input.is_a?(String)
+      input = input.split("")
+      input.delete_at(-1)
+      return input.join
+    end
+  end
 
 #exclude_first
   # removes the first item from an array
   # removes the first character from a string
   # does not alter the original input (non-destructive)
 
+  def exclude_first(input)
+    new_array = []
+    if input.is_a?(Array)
+      input.each do |element|
+        new_array << element
+      end
+      new_array.shift
+      return new_array
+    elsif input.is_a?(String)
+      input = input.split("")
+      input.shift
+      return input.join
+    end
+  end
+
 #exclude_ends
   # removes the first and last items from an array
   # removes the first and last characters from a string
 
+  def exclude_ends(input)
+    if input.is_a?(Array)
+      input.delete_at(0)
+      input.delete_at(-1)
+      return input
+    elsif input.is_a?(String)
+      input = input.split("")
+      input.shift
+      input.pop
+      return input.join
+    end
+  end
+
 #select_every_even
   # returns a list of even-indexed items
+
+  def select_every_even(array)
+    new_array = []
+    i = 0
+    while i < array.length
+      if i % 2 == 0
+        new_array << array[i]
+      end
+      i += 1
+    end
+    new_array
+  end
 
 #select_every_odd
   # returns a list of odd-indexed items
 
+  def select_every_odd(array)
+    new_array = []
+    i = 0
+    while i < array.length
+      if i % 2 == 1
+        new_array << array[i]
+      end
+      i += 1
+    end
+    new_array
+  end
+
 #select_every_n
   # returns a list of items at an index evenly divisible by n
   # defaults to an n value of 1
+
+  def select_every_n(array, n = 1)
+    new_array = []
+      i = 0
+      while i < array.length
+        if i % n == 0
+          new_array << array[i]
+        end
+        i += 1
+      end
+      new_array
+  end
 
 #compile_agenda
   # converts a list of agenda items into a single string
@@ -193,6 +313,24 @@ end
 #count_to
   # returns an array containing every integer from 0 to n
   # rounds off decimals
+
+  def count_to(n)
+    num_array = []
+    i = 0
+    if n >= 0
+      while i <= n
+        num_array << i
+        i += 1
+      end
+    elsif n < 0
+      while i >= n
+        num_array << i
+        i -= 1
+      end
+    end
+    num_array
+
+  end
 
 #is_integer?
   # returns true for Fixnums and Bignums (whole number or 'integer' types)

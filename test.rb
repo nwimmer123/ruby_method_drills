@@ -1,21 +1,8 @@
-  def count_to(n)
-    num_array = []
-    i = 0
-    if n > 0
-      while i <= n
-        num_array << i
-        i += 1
-      end
-    elsif n < 0
-      while i >= n
-        num_array << i
-        i -= 1
-      end
-    end
-    num_array
+def word_count(string)
+  words = string.downcase.split
+  counts = Hash.new(0)
+  words.each { |word| counts[word] += 1 }
+  counts
+end
 
-  end
-
-puts count_to(5)
-
-puts count_to(-5)
+puts word_count("hi hi hi hello titty")

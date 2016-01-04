@@ -38,6 +38,10 @@ end
   # returns nil if it cannot find the 'answer' keyword argument
   # complains when given non-keyword arguments
 
+  def find_answer(**kwargs)
+    kwargs[:answer]
+  end
+
 ##############################
 #### MANIPULATING STRINGS ####
 ##############################
@@ -78,27 +82,18 @@ end
   # replaces periods with ' STOP'
 
   #loop doesn't work right
-  # def to_telegram(string)
-  #   string = string.split(//)
-  #   puts string
-
-  #   i = 0
-  #     while i < string.length
-  #       if string[i] == "h"
-  #         string[i] = "k"
-  #       end
-  #     end
-  #   # string.each do |letter|
-  #   #   if letter == "."
-  #   #     letter = " STOP"
-  #   #   end
-  #   # end
-  #   puts string
-  #   string.join 
-  # end
-
-  # puts to_telegram("hello.")
- 
+  def to_telegram(string)
+    string = string.split("")
+    array = []
+    string.each do |letter|
+      if letter == "."
+        array << " STOP"
+       else
+        array << letter
+      end
+    end
+  array.join
+  end
 
 #spell_out
   # returns the input string, with characters seperated by dashes
@@ -118,11 +113,21 @@ end
     string.join(seperator)
   end
 
-  puts seperate("hey")
-
 #croon
   # seperates word characters with dashes
   # preserves whitespace between words
+
+def croon(string)
+    words = string.split
+    new_words = []
+      words.each do |word|
+        word = word.split("")
+        word = word.join("-")
+        new_words << word
+      end
+    new_words.join(" ") 
+end
+
 
 #palindrome_word?
   # determines whether a single word is a palindrome
@@ -142,15 +147,62 @@ end
   # ignores whitespace
   # ignores punctuation
 
+def palindrome_sentence?(string)
+    string = string.downcase
+    string = string.gsub(/\s+/, "")
+    string = string.delete "!"
+    string = string.delete "?"
+    string = string.delete "."
+    string = string.delete ","
+    string = string.delete ":"
+    string = string.delete ";"
+    if string == string.reverse
+      return true
+    end
+    false
+end
+
+
 #is_vowel
   # determines whether a given character is a vowel
   # ignores case
   # handles weird inputs gracefully
 
+def is_vowel(string)
+    if string.is_a?(String) == false
+      return false
+    end
+    string_array = []
+    string = string.downcase
+    string = string.split("")
+    string.each do |letter|
+      if letter == "a" || letter == "e" || letter =="i" || letter =="o" || letter =="u"
+        string_array << letter
+      end
+  end
+  if string_array.length == string.length
+    return true
+  else
+    return false
+  end
+end
+
+
 #add_period
   # adds a period to the end of the sentence
   # does not add a period if one is already there
   # does not add a period if any form of terminal punctuation is present
+
+  def add_period(string)
+    string = string.split("")
+    if string[-1] == "." || string[-1] == "?" || string[-1] == "!"
+      return string.join
+    else
+      string << "."
+      return string.join
+    end
+
+  end
 
 
 ###########################
@@ -189,13 +241,13 @@ end
       if element == true
         truthy_array << element
         puts truthy_array
+      elsif element == nil
+        array.delete_at(element)
       end
+
     truthy_array
     end
   end
-
-puts remove_falsy_values([0, "", nil, false, -1]) 
-
 
 #exclude_last
   # removes the last item from an array
@@ -307,6 +359,12 @@ puts remove_falsy_values([0, "", nil, false, -1])
   # sort order can (optionally) be changed to priority descending
   # the bullet can (optionally) be changed to any symbol
 
+def compile_agenda(agenda_items, order="DESC", bullet="*")
+  sorted_agenda_items = agenda_items.sort_by {|o| o[:priority] }
+  sorted_agenda_items.reverse! if order == "ASC"
+  sorted_agenda_items.map {|o| "#{bullet} #{o[:title]}"  }.join("\n")
+end
+
 ##############################
 #### MANIPULATING NUMBERS ####
 ##############################
@@ -339,16 +397,69 @@ puts remove_falsy_values([0, "", nil, false, -1])
   # returns false for Float::NAN
   # returns false for non-numbers
 
+  def is_integer?(input)
+    if input.is_a?(Integer) || (input.is_a?(Float) && input % 1 == 0)
+      return true
+    end
+    false
+  end
+
 #is_prime?
   # returns false for non-integer decimals
   # returns false for numbers less than or equal to 1
   # returns false for numbers divisible by anything but 1 and themselves
   # returns true for prime numbers
 
+def is_prime?(num)
+  if num <= 1 || num % 1 != 0
+      return false
+    else
+    #try to divide number by all numbers in between it and 1. 
+    divisor = 2
+    while divisor < num
+    rem_num = num % divisor 
+      if rem_num == 0
+        return false
+      end
+    divisor += 1
+    end
+  return true
+  end
+end
+
+
 #primes_less_than
   # returns an empty array if there are no primes below num
   # does not return the number itself
   # finds all primes less than the given number
+
+def is_prime_again?(number)
+
+    #try to divide number by all numbers in between it and 1. 
+    divisor = 2
+    while divisor < number
+    rem_num = number % divisor 
+      if rem_num == 0
+        return false
+      end
+    divisor += 1
+    end
+  return true
+end
+
+  def primes_less_than(num)
+    primes_array = []
+    i = 2
+    while i < num 
+      
+      if is_prime_again?(i) == true
+          primes_array << i
+         
+      end
+     i += 1
+    end
+    primes_array
+  end
 
 #iterative_factorial
   # returns 1 for 0 and 1
@@ -356,7 +467,19 @@ puts remove_falsy_values([0, "", nil, false, -1])
   # returns NaN for non-integers
   # calculates factorial
 
-
+  def iterative_factorial(num)
+    if num < 0 || num.is_a?(Integer) == false
+      return Float::NAN
+    else
+      i = 1
+      factorial = 1
+      while i <= num
+        factorial = i * factorial
+        i += 1
+      end
+    end
+    factorial
+  end
 
 ##############################
 #### MANIPULATING OBJECTS ####
@@ -365,10 +488,40 @@ puts remove_falsy_values([0, "", nil, false, -1])
   # counts how many times each character appears in a string
   # ignores case
 
+def character_count(str)
+
+  character = str.downcase.split("")
+  counts = Hash.new(0)
+  character.each { |letter| counts[letter] += 1 }
+  counts
+
+end
+
+
 #word_count
   # counts how many times a word appears in a string
   # ignores case
   # ignores characters that are not in the sequence a-z
 
+def word_count(string)
+  string = string.downcase
+  string.gsub!(/[^a-z ]/,'')
+  words = string.split
+  counts = Hash.new(0)
+  words.each { |word| counts[word] += 1 }
+  counts
+end
+
+
 #most_frequent_word
   # finds the word in a string that appears with the most frequency
+
+  def most_frequent_word(string)
+  string = string.downcase
+  string.gsub!(/[^a-z ]/,'')
+  words = string.split
+  counts = Hash.new(0)
+  words.each { |word| counts[word] += 1 }
+  counts.max_by{ |k,v| v }[0]
+  end
+
